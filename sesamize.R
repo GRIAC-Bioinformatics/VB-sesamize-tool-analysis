@@ -27,6 +27,8 @@
 #'
 #' }
 #' @export 
+
+library(autoGLM)
 sesamize <- function(
     rgSet, naFrac=1, BPPARAM=SerialParam(), HDF5=NULL,
     HDF5SEdestination=paste0(tempdir(check=TRUE), "/sesamize_HDF5_scratch"),
@@ -34,8 +36,8 @@ sesamize <- function(
 
     stopifnot(is(rgSet, "RGChannelSet"))
 
-    pkgTest('minfi')
-    pkgTest('SummarizedExperiment')
+    autoGLM::pkgTest('minfi')
+    autoGLM::pkgTest('SummarizedExperiment')
     indices = seq_len(ncol(rgSet))
 
     if (is.null(HDF5)) {
@@ -59,7 +61,7 @@ sesamize <- function(
     ratioSet <- do.call(SummarizedExperiment::cbind, t1)
     colnames(ratioSet) = colnames(rgSet)
     if (HDF5) {
-        pkgTest('HDF5Array')
+        autoGLM::pkgTest('HDF5Array')
         ##td <- paste(tempdir(check=TRUE), "sesamize_HDF5_scratch", sep="/")
         ratioSet <- HDF5Array::saveHDF5SummarizedExperiment(
             ratioSet, dir=HDF5SEdestination, replace=replace) #td, replace=TRUE)
@@ -204,7 +206,7 @@ SigDFsToRGChannelSet <- function(sdfs, BPPARAM=SerialParam(), annotation=NA) {
 ## helper: convert RGChannelSet of one sample
 RGChannelSet1ToSigDF <- function(rgSet1, manifest = NULL, controls = NULL) {
 
-    pkgTest('minfi')
+    autoGLM::pkgTest('minfi')
     stopifnot(ncol(rgSet1) == 1)
     
     ## chipaddress/rownames are automatically the same
@@ -254,7 +256,7 @@ RGChannelSet1ToSigDF <- function(rgSet1, manifest = NULL, controls = NULL) {
 RGChannelSetToSigDFs <- function(
     rgSet, manifest=NULL, BPPARAM=SerialParam()) {
 
-    pkgTest('minfi')
+    autoGLM::pkgTest('minfi')
     samples <- colnames(rgSet)
     bplapply(
         seq_len(ncol(rgSet)), function(i) {
