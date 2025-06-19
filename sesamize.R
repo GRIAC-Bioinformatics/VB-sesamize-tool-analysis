@@ -29,6 +29,8 @@
 #' @export 
 
 library(autoGLM)
+library(BiocParallel)
+
 sesamize <- function(
     rgSet, naFrac=1, BPPARAM=SerialParam(), HDF5=NULL,
     HDF5SEdestination=paste0(tempdir(check=TRUE), "/sesamize_HDF5_scratch"),
